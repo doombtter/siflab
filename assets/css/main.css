@@ -1,15 +1,3 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Siflab — Workshop of quiet craft</title>
-<meta name="description" content="siflab은 소프트웨어를 만드는 작은 공방입니다. Named after Sif, Norse goddess of golden harvest." />
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=JetBrains+Mono:wght@400;500&family=Noto+Serif+KR:wght@300;400;500&display=swap" rel="stylesheet">
-<style>
 :root {
   --bg: #0d1117;
   --bg-deeper: #080b10;
@@ -22,10 +10,11 @@
   --frost: #8b9db0;
   --line: rgba(232, 225, 208, 0.1);
   --line-bright: rgba(232, 225, 208, 0.2);
+  --nav-h: 76px;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 
 body {
   background: var(--bg);
@@ -37,6 +26,7 @@ body {
   -webkit-font-smoothing: antialiased;
   position: relative;
   overflow-x: hidden;
+  min-height: 100vh;
 }
 
 body::before {
@@ -83,11 +73,8 @@ body::after {
 }
 
 a { color: inherit; text-decoration: none; }
+button { font: inherit; }
 nav, section, header, footer { position: relative; z-index: 2; }
-
-[data-lang] { display: none; }
-body[lang="ko"] [data-lang="ko"] { display: unset; }
-body[lang="en"] [data-lang="en"] { display: unset; }
 
 .lang-toggle {
   display: flex;
@@ -111,6 +98,7 @@ body[lang="en"] [data-lang="en"] { display: unset; }
   font-size: inherit;
   letter-spacing: inherit;
   text-transform: uppercase;
+  min-height: 32px;
 }
 
 .lang-toggle button.active {
@@ -120,17 +108,18 @@ body[lang="en"] [data-lang="en"] { display: unset; }
 
 .lang-toggle button:hover:not(.active) { color: var(--gold); }
 
-nav {
+/* ========== NAV ========== */
+.site-nav {
   position: fixed;
   top: 0; left: 0; right: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 28px 48px;
+  padding: 22px 48px;
   z-index: 50;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  background: linear-gradient(to bottom, rgba(13, 17, 23, 0.8), transparent);
+  background: linear-gradient(to bottom, rgba(13, 17, 23, 0.85), rgba(13, 17, 23, 0.55) 70%, transparent);
 }
 
 .logo {
@@ -172,6 +161,7 @@ nav {
   position: relative;
 }
 
+.nav-links a.is-active,
 .nav-links a:hover { color: var(--gold); }
 
 .nav-links a::after {
@@ -186,8 +176,100 @@ nav {
   transition: transform 0.4s ease;
 }
 
-.nav-links a:hover::after { transform: scaleX(1); }
+.nav-links a:hover::after,
+.nav-links a.is-active::after { transform: scaleX(1); }
 
+.nav-toggle {
+  display: none;
+  width: 44px;
+  height: 44px;
+  background: transparent;
+  border: 1px solid var(--line-bright);
+  border-radius: 50%;
+  color: var(--ink);
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 60;
+  transition: border-color 0.3s, color 0.3s;
+}
+
+.nav-toggle:hover { border-color: var(--gold); color: var(--gold); }
+
+.nav-toggle .bar {
+  display: block;
+  width: 18px;
+  height: 1px;
+  background: currentColor;
+  position: relative;
+  transition: transform 0.3s, opacity 0.3s;
+}
+.nav-toggle .bar::before,
+.nav-toggle .bar::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0;
+  height: 1px;
+  background: currentColor;
+  transition: transform 0.3s;
+}
+.nav-toggle .bar::before { top: -6px; }
+.nav-toggle .bar::after { top: 6px; }
+
+.nav-toggle.is-open .bar { background: transparent; }
+.nav-toggle.is-open .bar::before { transform: translateY(6px) rotate(45deg); }
+.nav-toggle.is-open .bar::after { transform: translateY(-6px) rotate(-45deg); }
+
+.mobile-menu {
+  position: fixed;
+  inset: 0;
+  background: rgba(8, 11, 16, 0.96);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  z-index: 55;
+  display: none;
+  flex-direction: column;
+  align-items: stretch;
+  padding: calc(var(--nav-h) + 24px) 32px 32px;
+  opacity: 0;
+  transform: translateY(-12px);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+.mobile-menu.is-open {
+  display: flex;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.mobile-menu a {
+  font-family: 'Cormorant Garamond', 'Noto Serif KR', serif;
+  font-size: 28px;
+  font-weight: 300;
+  color: var(--ink);
+  padding: 18px 0;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mobile-menu a em {
+  font-family: 'JetBrains Mono', monospace;
+  font-style: normal;
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--gold);
+  text-transform: uppercase;
+}
+
+.mobile-menu .lang-toggle {
+  margin-top: 32px;
+  align-self: flex-start;
+}
+
+/* ========== HERO ========== */
 .hero {
   min-height: 100vh;
   padding: 140px 48px 80px;
@@ -215,6 +297,8 @@ nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
   font-family: 'JetBrains Mono', monospace;
   font-size: 11px;
   color: var(--ink-fade);
@@ -269,6 +353,7 @@ nav {
   letter-spacing: -0.02em;
   margin-bottom: 40px;
   text-align: center;
+  word-break: keep-all;
 }
 
 .hero-title em {
@@ -302,6 +387,7 @@ nav {
   color: var(--ink-soft);
   max-width: 340px;
   font-style: italic;
+  word-break: keep-all;
 }
 
 .hero-lead em {
@@ -345,6 +431,7 @@ nav {
   margin-bottom: 4px;
 }
 
+/* ========== SECTIONS ========== */
 section {
   padding: 140px 48px;
   max-width: 1400px;
@@ -361,6 +448,7 @@ section {
   display: flex;
   align-items: center;
   gap: 14px;
+  flex-wrap: wrap;
 }
 
 .section-label::before {
@@ -371,6 +459,7 @@ section {
 .section-label::after {
   content: '';
   flex: 1;
+  min-width: 30px;
   max-width: 80px;
   height: 1px;
   background: var(--line-bright);
@@ -413,6 +502,7 @@ section {
   font-size: 16px;
   line-height: 1.9;
   color: var(--ink-soft);
+  word-break: keep-all;
 }
 
 .myth-text em {
@@ -438,6 +528,7 @@ section {
   line-height: 1.1;
   letter-spacing: -0.02em;
   margin-bottom: 32px;
+  word-break: keep-all;
 }
 
 .about-heading em {
@@ -450,6 +541,7 @@ section {
   font-size: 16px;
   line-height: 1.8;
   color: var(--ink-soft);
+  word-break: keep-all;
 }
 
 .about-body p + p { margin-top: 20px; }
@@ -459,13 +551,12 @@ section {
   font-weight: 500;
 }
 
+/* ========== WORKS ========== */
 .works {
   padding: 140px 48px;
   background: var(--bg-deeper);
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
-  max-width: none;
-  margin: 0;
 }
 
 .works-inner {
@@ -476,10 +567,11 @@ section {
 .works-heading {
   font-family: 'Cormorant Garamond', 'Noto Serif KR', serif;
   font-weight: 300;
-  font-size: clamp(2.5rem, 4vw, 3.5rem);
+  font-size: clamp(2.25rem, 4vw, 3.5rem);
   line-height: 1.15;
   max-width: 800px;
   margin-bottom: 80px;
+  word-break: keep-all;
 }
 
 .works-heading em {
@@ -495,24 +587,24 @@ section {
   padding: 36px 0;
   border-top: 1px solid var(--line);
   transition: padding 0.5s cubic-bezier(0.22, 1, 0.36, 1), background 0.5s;
-  cursor: pointer;
   position: relative;
 }
 
+.work.is-link { cursor: pointer; }
 .work:last-child { border-bottom: 1px solid var(--line); }
 
-.work:hover {
+.work.is-link:hover {
   padding-left: 24px;
   background: linear-gradient(90deg, rgba(201, 168, 118, 0.05), transparent);
 }
 
-.work:hover .work-arrow {
+.work.is-link:hover .work-arrow {
   color: var(--gold);
   transform: translateX(12px);
 }
 
-.work:hover .work-index { color: var(--gold); }
-.work:hover .work-name em { color: var(--gold-bright); }
+.work.is-link:hover .work-index { color: var(--gold); }
+.work.is-link:hover .work-name em { color: var(--gold-bright); }
 
 .work-index {
   font-family: 'JetBrains Mono', monospace;
@@ -532,7 +624,7 @@ section {
 
 .work-name {
   font-family: 'Cormorant Garamond', 'Noto Serif KR', serif;
-  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-size: clamp(1.75rem, 4vw, 3.5rem);
   font-weight: 300;
   line-height: 1;
   letter-spacing: -0.01em;
@@ -552,6 +644,7 @@ section {
   max-width: 420px;
   font-style: italic;
   font-family: 'Cormorant Garamond', 'Noto Serif KR', serif;
+  word-break: keep-all;
 }
 
 .work-arrow {
@@ -563,6 +656,69 @@ section {
   text-align: right;
 }
 
+.work-stores {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.store-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 16px;
+  border: 1px solid var(--line-bright);
+  border-radius: 8px;
+  background: rgba(20, 26, 34, 0.6);
+  color: var(--ink);
+  transition: all 0.3s ease;
+  min-height: 44px;
+}
+
+.store-badge:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+  transform: translateY(-1px);
+}
+
+.store-badge svg {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+.store-badge .label {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+  text-align: left;
+}
+
+.store-badge .label small {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-fade);
+}
+
+.store-badge .label span {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 14px;
+}
+
+.work-cta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+  text-align: right;
+}
+
+/* ========== PRINCIPLES ========== */
 .principles-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -600,6 +756,7 @@ section {
   line-height: 1.2;
   margin-bottom: 14px;
   color: var(--ink);
+  word-break: keep-all;
 }
 
 .principle-title em {
@@ -611,14 +768,17 @@ section {
   font-size: 14px;
   color: var(--ink-soft);
   line-height: 1.7;
+  word-break: keep-all;
 }
 
+/* ========== CONTACT ========== */
 .contact {
   padding: 180px 48px;
   text-align: center;
   position: relative;
   max-width: none;
   border-top: 1px solid var(--line);
+  margin: 0;
 }
 
 .contact-rune-bg {
@@ -657,6 +817,7 @@ section {
   line-height: 1.1;
   letter-spacing: -0.02em;
   margin-bottom: 40px;
+  word-break: keep-all;
 }
 
 .contact-heading em {
@@ -680,6 +841,8 @@ section {
   position: relative;
   transition: all 0.4s ease;
   overflow: hidden;
+  min-height: 52px;
+  word-break: break-all;
 }
 
 .contact-email > span { position: relative; z-index: 2; }
@@ -706,12 +869,15 @@ section {
 
 .contact-email:hover .contact-arrow { transform: translateX(8px); }
 
-footer {
-  padding: 40px 48px;
+/* ========== FOOTER ========== */
+.site-footer {
+  padding: 36px 48px;
   border-top: 1px solid var(--line);
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
   font-family: 'JetBrains Mono', monospace;
   font-size: 10px;
   text-transform: uppercase;
@@ -719,13 +885,13 @@ footer {
   color: var(--ink-fade);
 }
 
-footer .rune {
+.site-footer .rune {
   color: var(--gold);
   font-size: 13px;
   margin: 0 4px;
 }
 
-footer .live-dot {
+.site-footer .live-dot {
   display: inline-block;
   width: 6px;
   height: 6px;
@@ -735,6 +901,32 @@ footer .live-dot {
   vertical-align: middle;
   animation: pulse 2s ease-in-out infinite;
 }
+
+.footer-stores {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.footer-store {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--line-bright);
+  border-radius: 50%;
+  color: var(--ink-soft);
+  transition: all 0.3s ease;
+}
+
+.footer-store:hover {
+  color: var(--gold);
+  border-color: var(--gold);
+  transform: translateY(-1px);
+}
+
+.footer-store svg { width: 16px; height: 16px; }
 
 @keyframes pulse {
   0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(201, 168, 118, 0.6); }
@@ -756,275 +948,330 @@ footer .live-dot {
 .reveal.delay-2 { transition-delay: 0.3s; }
 .reveal.delay-3 { transition-delay: 0.45s; }
 
+/* ========== SOLUTIONS PAGE ========== */
+.solution-hero {
+  padding: calc(var(--nav-h) + 80px) 48px 60px;
+  max-width: 1100px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 12px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--ink-fade);
+  margin-bottom: 32px;
+  align-items: center;
+}
+
+.breadcrumb a { color: var(--ink-soft); transition: color 0.3s; }
+.breadcrumb a:hover { color: var(--gold); }
+.breadcrumb .sep { color: var(--ink-fade); opacity: 0.6; }
+.breadcrumb .current { color: var(--gold); }
+
+.solution-title {
+  font-family: 'Cormorant Garamond', 'Noto Serif KR', serif;
+  font-weight: 300;
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: 24px;
+  word-break: keep-all;
+}
+
+.solution-title em {
+  font-style: italic;
+  color: var(--gold);
+  font-weight: 400;
+}
+
+.solution-lead {
+  font-size: clamp(1rem, 1.4vw, 1.2rem);
+  line-height: 1.8;
+  color: var(--ink-soft);
+  max-width: 720px;
+  word-break: keep-all;
+}
+
+.solution-lead em {
+  font-style: italic;
+  color: var(--gold);
+}
+
+.solution-status-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 32px;
+  margin-top: 36px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--ink-fade);
+}
+
+.solution-status-strip strong {
+  color: var(--gold);
+  font-weight: 500;
+  margin-left: 8px;
+}
+
+.projects {
+  padding: 80px 48px 140px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.project-card {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 60px;
+  padding: 56px;
+  border: 1px solid var(--line-bright);
+  background: linear-gradient(145deg, var(--surface) 0%, rgba(20, 26, 34, 0.5) 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.project-card::before {
+  content: '';
+  position: absolute;
+  top: 16px; left: 16px; right: 16px; bottom: 16px;
+  border: 1px solid var(--line);
+  pointer-events: none;
+}
+
+.project-card + .project-card { margin-top: 32px; }
+
+.project-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--ink-fade);
+  margin-bottom: 24px;
+}
+
+.project-meta .pill {
+  padding: 4px 10px;
+  border: 1px solid var(--gold);
+  border-radius: 100px;
+  color: var(--gold);
+  font-size: 10px;
+}
+
+.project-name {
+  font-family: 'Cormorant Garamond', 'Noto Serif KR', serif;
+  font-weight: 300;
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  margin-bottom: 18px;
+  word-break: keep-all;
+}
+
+.project-name em {
+  font-style: italic;
+  color: var(--gold);
+  font-weight: 400;
+}
+
+.project-desc {
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--ink-soft);
+  word-break: keep-all;
+}
+
+.project-desc + .project-desc { margin-top: 14px; }
+
+.project-features {
+  list-style: none;
+  display: grid;
+  gap: 14px;
+}
+
+.project-features li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 16px;
+  align-items: start;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.project-features li:last-child { border-bottom: none; }
+
+.project-features .ico {
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line-bright);
+  border-radius: 50%;
+  font-family: serif;
+  color: var(--gold);
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.project-features h4 {
+  font-family: 'Cormorant Garamond', 'Noto Serif KR', serif;
+  font-size: 18px;
+  font-weight: 400;
+  margin-bottom: 4px;
+  color: var(--ink);
+}
+
+.project-features p {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--ink-fade);
+  word-break: keep-all;
+}
+
+.coming-soon {
+  margin-top: 32px;
+  padding: 40px 32px;
+  text-align: center;
+  border: 1px dashed var(--line-bright);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--ink-fade);
+}
+
+.coming-soon .rune { color: var(--gold); margin: 0 8px; }
+
+/* ========== RESPONSIVE ========== */
 @media (max-width: 900px) {
-  nav { padding: 20px 24px; }
-  .nav-links { gap: 16px; font-size: 10px; }
-  .logo { font-size: 18px; }
-  .hero { padding: 120px 24px 60px; }
+  .nav-links a:not(.lang-only) { display: none; }
+  .nav-links { gap: 16px; }
+  .nav-toggle { display: inline-flex; }
+  .site-nav { padding: 16px 22px; }
+  .logo { font-size: 19px; }
+
+  .hero {
+    padding: calc(var(--nav-h) + 40px) 22px 60px;
+  }
+  .hero-content { padding: 56px 0; }
+  .hero-meta {
+    font-size: 10px;
+    letter-spacing: 2px;
+    padding-bottom: 22px;
+  }
+  .hero-overline { letter-spacing: 3px; gap: 12px; }
+  .hero-overline::before, .hero-overline::after { max-width: 32px; }
+
   .hero-bottom {
     grid-template-columns: 1fr;
-    gap: 32px;
+    gap: 28px;
     text-align: center;
   }
   .hero-lead, .hero-right { max-width: 100%; text-align: center; }
   .hero-center-rune { order: -1; }
-  section { padding: 100px 24px; }
-  .about-grid { grid-template-columns: 1fr; gap: 60px; }
-  .works { padding: 100px 24px; }
+
+  section { padding: 88px 22px; }
+  .about-grid { grid-template-columns: 1fr; gap: 48px; }
+  .about-myth { padding: 28px; }
+  .myth-quote { font-size: 17px; padding-left: 16px; }
+
+  .works { padding: 88px 22px; }
   .work {
     grid-template-columns: auto 1fr;
-    gap: 20px;
+    grid-template-rows: auto auto;
+    gap: 12px 18px;
+    padding: 28px 0;
   }
-  .work-type, .work-arrow { display: none; }
-  .work:hover { padding-left: 0; }
+  .work-index { grid-column: 1; grid-row: 1; }
+  .work-type { grid-column: 2; grid-row: 1; align-self: center; }
+  .work .work-body { grid-column: 1 / -1; grid-row: 2; }
+  .work-arrow { display: none; }
+  .work.is-link:hover { padding-left: 0; background: none; }
+  .work-name { font-size: clamp(1.6rem, 7vw, 2.4rem); }
+
   .principles-grid { grid-template-columns: 1fr; gap: 48px; }
-  .contact { padding: 120px 24px; }
+
+  .contact { padding: 100px 22px; }
   .contact-email {
-    padding: 18px 32px;
-    font-size: 18px;
+    padding: 18px 28px;
+    font-size: 17px;
     width: 100%;
     justify-content: center;
   }
-  footer {
+
+  .site-footer {
     flex-direction: column;
-    gap: 12px;
+    gap: 16px;
     text-align: center;
-    padding: 28px 24px;
+    padding: 26px 22px 32px;
   }
+
+  .solution-hero {
+    padding: calc(var(--nav-h) + 48px) 22px 40px;
+  }
+  .solution-title { font-size: clamp(2.2rem, 8vw, 3.4rem); }
+  .projects { padding: 32px 22px 96px; }
+  .project-card {
+    grid-template-columns: 1fr;
+    gap: 36px;
+    padding: 32px 24px;
+  }
+  .project-card::before { top: 10px; left: 10px; right: 10px; bottom: 10px; }
 }
-</style>
-</head>
-<body lang="ko">
 
-<nav>
-  <a href="#" class="logo">
-    <span class="logo-rune">ᛋ</span>
-    <span>SIFLAB</span>
-  </a>
-  <div class="nav-links">
-    <a href="#about"><span data-lang="ko">소개</span><span data-lang="en">About</span></a>
-    <a href="#works"><span data-lang="ko">작업</span><span data-lang="en">Works</span></a>
-    <a href="#contact"><span data-lang="ko">연락</span><span data-lang="en">Contact</span></a>
-    <div class="lang-toggle">
-      <button data-set-lang="ko" class="active">KO</button>
-      <button data-set-lang="en">EN</button>
-    </div>
-  </div>
-</nav>
+@media (max-width: 480px) {
+  body { font-size: 16px; }
+  .site-nav { padding: 14px 18px; }
+  .logo { font-size: 17px; gap: 8px; }
+  .logo-rune { width: 24px; height: 24px; font-size: 12px; }
 
-<header class="hero">
-  <div class="hero-rune-bg">ᛋ</div>
+  .hero { padding: calc(var(--nav-h) + 24px) 18px 48px; }
+  .hero-content { padding: 36px 0; }
+  .hero-title { font-size: clamp(2.4rem, 11vw, 3.4rem); margin-bottom: 28px; }
+  .hero-meta { justify-content: center; }
+  .hero-meta > span:nth-child(2) { width: 100%; text-align: center; }
 
-  <div class="hero-meta">
-    <span><span class="rune">ᚠ</span>siflab · EST. MMXXIV</span>
-    <span data-lang="ko">작은 공방, 긴 시간</span>
-    <span data-lang="en">A small workshop, a long arc</span>
-  </div>
+  section { padding: 64px 18px; }
+  .section-label { letter-spacing: 2px; font-size: 10px; }
 
-  <div class="hero-content">
-    <div class="hero-overline">
-      <span data-lang="ko">황금 수확의 여신을 따라</span>
-      <span data-lang="en">Named after the goddess of golden harvest</span>
-    </div>
-    <h1 class="hero-title reveal">
-      <span data-lang="ko">조용히<br><em>오래가는 것</em>을<br><span class="small">만듭니다</span></span>
-      <span data-lang="en">We craft<br><em>things that last</em>,<br><span class="small">quietly.</span></span>
-    </h1>
-  </div>
+  .about-myth { padding: 22px; }
+  .about-heading { margin-bottom: 22px; }
 
-  <div class="hero-bottom">
-    <p class="hero-lead reveal delay-1">
-      <span data-lang="ko">siflab은 북유럽 신화의 <em>Sif</em>에서 이름을 빌렸습니다. 풍요와 가족, 그리고 <em>황금빛 머리카락</em>의 여신. 오래 지속되는 것을 짓는 손의 은유입니다.</span>
-      <span data-lang="en">siflab takes its name from <em>Sif</em>, Norse goddess of harvest, hearth, and <em>golden hair</em> — a metaphor for hands that build to endure.</span>
-    </p>
+  .works { padding: 64px 18px; }
+  .works-heading { margin-bottom: 48px; }
+  .work-name { font-size: 1.6rem; }
+  .work-stores { gap: 8px; }
+  .store-badge { padding: 8px 12px; }
+  .store-badge .label span { font-size: 13px; }
 
-    <div class="hero-center-rune reveal delay-2">
-      <span class="char">ᛉ</span>
-      <span class="line"></span>
-    </div>
-
-    <div class="hero-right reveal delay-3">
-      <div class="seoul">Seoul · 37.5°N</div>
-      <div data-lang="ko">독립 스튜디오 · 2026</div>
-      <div data-lang="en">Independent studio · 2026</div>
-    </div>
-  </div>
-</header>
-
-<section id="about">
-  <div class="section-label">
-    I <span data-lang="ko">· 신화와 이름</span><span data-lang="en">· The Myth</span>
-  </div>
-
-  <div class="about-grid">
-    <div class="about-myth reveal">
-      <div class="myth-title">From the Prose Edda</div>
-      <p class="myth-text" data-lang="ko">황금빛 머리카락을 가진 Sif는 대지와 가족의 여신입니다. 그녀의 머리카락은 <em>가을의 밀밭</em>이 되고, 그녀의 손길이 닿은 땅은 해마다 수확을 맺습니다.</p>
-      <p class="myth-text" data-lang="en">Sif of the golden hair, goddess of earth and hearth. Her hair is the <em>autumn wheat</em>, and every field she touches bears a harvest, year after year.</p>
-
-      <div class="myth-quote" data-lang="ko">"짓는 것은 시간에<br>맡기는 일이다."</div>
-      <div class="myth-quote" data-lang="en">"To build is to<br>entrust yourself to time."</div>
-    </div>
-
-    <div class="reveal delay-1">
-      <h2 class="about-heading">
-        <span data-lang="ko"><em>천천히</em>,<br><em>정직하게</em>,<br>길게.</span>
-        <span data-lang="en"><em>Slow</em>.<br><em>Honest</em>.<br>Long-lasting.</span>
-      </h2>
-      <div class="about-body">
-        <p data-lang="ko">siflab은 한 명의 개발자로 시작한 작은 공방입니다. 우리는 <strong>큰 것을 빠르게</strong> 만들지 않습니다. 대신 <strong>작은 것을 오래</strong> 고쳐갑니다.</p>
-        <p data-lang="ko">트렌드보다는 <strong>우리가 직접 겪은 문제</strong>를 따라갑니다. 그 문제가 구체적일수록, 비슷한 문제를 가진 누군가가 자연스럽게 찾아옵니다.</p>
-        <p data-lang="ko">만든 것은 버리지 않습니다. 유저가 한 명이라도 남아 있다면, 우리는 여전히 그것을 책임집니다.</p>
-
-        <p data-lang="en">siflab is a workshop of one. We do not build <strong>big things quickly</strong> — we refine <strong>small things, over years</strong>.</p>
-        <p data-lang="en">We follow problems we have lived ourselves, not market trends. The more specific the problem, the more naturally a community forms around it.</p>
-        <p data-lang="en">We don't abandon what we make. If one user remains, we are still responsible for it.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="works" class="works">
-  <div class="works-inner">
-    <div class="section-label">
-      II <span data-lang="ko">· 지금 짓고 있는 것</span><span data-lang="en">· Currently Forging</span>
-    </div>
-
-    <h2 class="works-heading reveal">
-      <span data-lang="ko">지금은 <em>두 개</em>의 제품이<br>공방에 놓여 있습니다.</span>
-      <span data-lang="en">Two works currently<br>rest on our bench.</span>
-    </h2>
-
-    <a href="https://loavesting.com" target="_blank" rel="noopener" class="work">
-      <div class="work-index">ᚠ · 001</div>
-      <div class="work-type">
-        <span data-lang="ko">웹 · 유틸리티</span>
-        <span data-lang="en">Web · Utility</span>
-      </div>
-      <div>
-        <div class="work-name"><em>Loavesting</em></div>
-        <p class="work-desc" data-lang="ko">로스트아크 유저를 위한 재련 견적 계산기. 정확한 기댓값과 매일 쓰기 좋은 흐름으로, 커뮤니티가 오래 찾는 도구.</p>
-        <p class="work-desc" data-lang="en">A refinement calculator for Lost Ark players. Precise expected values, daily-friendly flow — a tool the community returns to.</p>
-      </div>
-      <div class="work-arrow">→</div>
-    </a>
-
-    <a href="#" class="work">
-      <div class="work-index">ᚢ · 002</div>
-      <div class="work-type">
-        <span data-lang="ko">모바일 · 소셜</span>
-        <span data-lang="en">Mobile · Social</span>
-      </div>
-      <div>
-        <div class="work-name"><em>Feeder</em></div>
-        <p class="work-desc" data-lang="ko">익명으로 연결되는 작은 아지트. 사진, 짧은 영상, 목소리로 부담 없이 주고받는 대화.</p>
-        <p class="work-desc" data-lang="en">A quiet haven for anonymous connection — photos, short clips, voices, exchanged without weight.</p>
-      </div>
-      <div class="work-arrow">→</div>
-    </a>
-  </div>
-</section>
-
-<section id="principles">
-  <div class="section-label">
-    III <span data-lang="ko">· 공방의 신조</span><span data-lang="en">· Workshop Commandments</span>
-  </div>
-
-  <h2 class="about-heading reveal" style="max-width: 800px;">
-    <span data-lang="ko"><em>믿는 것</em>,<br>그리고 만들지 <em>않는 것</em>.</span>
-    <span data-lang="en">What we <em>believe</em>,<br>and what we will <em>not</em> make.</span>
-  </h2>
-
-  <div class="principles-grid">
-    <div class="principle reveal">
-      <div class="principle-rune">ᚠ</div>
-      <h3 class="principle-title">
-        <span data-lang="ko">필요하면 <em>오래 쓴다</em></span>
-        <span data-lang="en">Kept, not <em>abandoned</em></span>
-      </h3>
-      <p class="principle-body" data-lang="ko">한 번 만든 제품은 함부로 버리지 않습니다. 유저가 한 명이라도 남아 있다면, 그것은 여전히 우리의 책임입니다.</p>
-      <p class="principle-body" data-lang="en">Whatever we make, we keep. If one user remains, that product is still ours to maintain.</p>
-    </div>
-
-    <div class="principle reveal delay-1">
-      <div class="principle-rune">ᚢ</div>
-      <h3 class="principle-title">
-        <span data-lang="ko">크기보다 <em>밀도</em></span>
-        <span data-lang="en">Density over <em>scale</em></span>
-      </h3>
-      <p class="principle-body" data-lang="ko">기능을 많이 붙이는 것보다 하나를 정확하게 하는 것. 무게는 코드가 아니라 약속에서 옵니다.</p>
-      <p class="principle-body" data-lang="en">Doing one thing accurately beats adding many. Weight comes from promises, not code.</p>
-    </div>
-
-    <div class="principle reveal delay-2">
-      <div class="principle-rune">ᚦ</div>
-      <h3 class="principle-title">
-        <span data-lang="ko">유저는 <em>숫자가 아니다</em></span>
-        <span data-lang="en">Users are <em>not numbers</em></span>
-      </h3>
-      <p class="principle-body" data-lang="ko">DAU, 리텐션, 전환율은 도구일 뿐입니다. 누가 어떻게 쓰는지 직접 보고, 듣고, 답합니다.</p>
-      <p class="principle-body" data-lang="en">DAU, retention, conversion — all tools. We see, hear, and answer the humans behind the data.</p>
-    </div>
-  </div>
-</section>
-
-<section id="contact" class="contact">
-  <div class="contact-rune-bg">ᛏ</div>
-  <div class="contact-content">
-    <div class="contact-overline">
-      IV <span data-lang="ko">· 연락</span><span data-lang="en">· Contact</span>
-    </div>
-    <h2 class="contact-heading reveal">
-      <span data-lang="ko">함께 이야기하고 싶은<br><em>작은 아이디어</em>가 있나요?</span>
-      <span data-lang="en">Have a <em>small idea</em><br>worth sharing?</span>
-    </h2>
-    <a href="mailto:doombtter@gmail.com" class="contact-email reveal delay-1">
-      <span>doombtter@gmail.com</span>
-      <span class="contact-arrow">→</span>
-    </a>
-  </div>
-</section>
-
-<footer>
-  <div>
-    <span class="live-dot"></span>
-    <span data-lang="ko">Seoul, KR에서 보내는 중 · 37.5°N</span>
-    <span data-lang="en">Broadcasting from Seoul, KR · 37.5°N</span>
-  </div>
-  <div>
-    © MMXXVI siflab <span class="rune">ᛋ</span>
-    <span data-lang="ko">정성으로 지음</span>
-    <span data-lang="en">Crafted with care</span>
-  </div>
-</footer>
-
-<script>
-  const buttons = document.querySelectorAll('[data-set-lang]');
-  buttons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const lang = btn.dataset.setLang;
-      document.body.setAttribute('lang', lang);
-      buttons.forEach(b => b.classList.toggle('active', b === btn));
-      localStorage.setItem('siflab-lang', lang);
-    });
-  });
-
-  const saved = localStorage.getItem('siflab-lang');
-  if (saved && (saved === 'ko' || saved === 'en')) {
-    document.body.setAttribute('lang', saved);
-    buttons.forEach(b => b.classList.toggle('active', b.dataset.setLang === saved));
+  .contact { padding: 80px 18px; }
+  .contact-email {
+    padding: 16px 22px;
+    font-size: 15px;
+    gap: 10px;
   }
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('in-view');
-      }
-    });
-  }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+  .site-footer { padding: 24px 18px 28px; font-size: 9px; letter-spacing: 2px; }
 
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-</script>
+  .mobile-menu { padding: calc(var(--nav-h) + 16px) 22px 24px; }
+  .mobile-menu a { font-size: 24px; padding: 14px 0; }
 
-</body>
-</html>
+  .solution-hero { padding: calc(var(--nav-h) + 32px) 18px 32px; }
+  .breadcrumb { font-size: 10px; gap: 8px 10px; margin-bottom: 24px; }
+  .projects { padding: 24px 18px 72px; }
+  .project-card { padding: 26px 20px; }
+  .project-name { font-size: 1.7rem; }
+  .project-features li { padding: 12px 0; gap: 12px; }
+  .project-features .ico { width: 28px; height: 28px; font-size: 13px; }
+}
