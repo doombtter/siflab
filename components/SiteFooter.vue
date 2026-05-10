@@ -12,9 +12,11 @@ const { lang } = useLang()
 
     <div class="footer-stores">
       <a
-        href="#download-ios"
+        href="https://apps.apple.com/kr/app/id6762005626"
+        target="_blank"
+        rel="noopener"
         class="footer-store"
-        aria-label="Download on the App Store"
+        aria-label="Download Feeder on the App Store"
         title="App Store"
       >
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -22,9 +24,11 @@ const { lang } = useLang()
         </svg>
       </a>
       <a
-        href="#download-android"
+        href="https://play.google.com/store/apps/details?id=com.feeder.feeder"
+        target="_blank"
+        rel="noopener"
         class="footer-store"
-        aria-label="Get it on Google Play"
+        aria-label="Get Feeder on Google Play"
         title="Google Play"
       >
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">

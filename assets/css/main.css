@@ -636,6 +636,24 @@ section {
   transition: color 0.3s;
 }
 
+.work-name-link {
+  display: inline-block;
+}
+
+.work-name-link:hover em { color: var(--gold-bright); }
+
+.work-arrow-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  cursor: pointer;
+}
+
+.work-arrow-link:hover {
+  color: var(--gold);
+  transform: translateX(8px);
+}
+
 .work-desc {
   font-size: 14px;
   color: var(--ink-fade);
