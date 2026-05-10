@@ -131,13 +131,20 @@ useReveal()
             <span v-else>Mobile · Social</span>
           </div>
           <div class="work-body">
-            <div class="work-name"><em>Feeder</em></div>
+            <a
+              href="https://feeder.siflab.org/"
+              target="_blank"
+              rel="noopener"
+              class="work-name work-name-link"
+            ><em>Feeder</em></a>
             <p class="work-desc" v-if="lang === 'ko'">익명으로 연결되는 작은 아지트. 사진, 짧은 영상, 목소리로 부담 없이 주고받는 대화.</p>
             <p class="work-desc" v-else>A quiet haven for anonymous connection — photos, short clips, voices, exchanged without weight.</p>
 
             <div class="work-stores">
               <a
-                href="#feeder-ios"
+                href="https://apps.apple.com/kr/app/id6762005626"
+                target="_blank"
+                rel="noopener"
                 class="store-badge"
                 aria-label="Download Feeder on the App Store"
               >
@@ -151,7 +158,9 @@ useReveal()
                 </span>
               </a>
               <a
-                href="#feeder-android"
+                href="https://play.google.com/store/apps/details?id=com.feeder.feeder"
+                target="_blank"
+                rel="noopener"
                 class="store-badge"
                 aria-label="Get Feeder on Google Play"
               >
@@ -166,7 +175,13 @@ useReveal()
               </a>
             </div>
           </div>
-          <div class="work-cta" aria-hidden="true"></div>
+          <a
+            href="https://feeder.siflab.org/"
+            target="_blank"
+            rel="noopener"
+            class="work-arrow work-arrow-link"
+            aria-label="Visit feeder.siflab.org"
+          >→</a>
         </div>
 
         <NuxtLink to="/solutions" class="work is-link">
@@ -238,8 +253,8 @@ useReveal()
           <template v-if="lang === 'ko'">함께 이야기하고 싶은<br><em>작은 아이디어</em>가 있나요?</template>
           <template v-else>Have a <em>small idea</em><br>worth sharing?</template>
         </h2>
-        <a href="mailto:doombtter@gmail.com" class="contact-email reveal delay-1">
-          <span>doombtter@gmail.com</span>
+        <a href="mailto:admin@siflab.org" class="contact-email reveal delay-1">
+          <span>admin@siflab.org</span>
           <span class="contact-arrow">→</span>
         </a>
       </div>
