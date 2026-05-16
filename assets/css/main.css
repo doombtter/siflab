@@ -1086,6 +1086,12 @@ section {
   font-size: 10px;
 }
 
+.project-meta .pill-done {
+  background: var(--gold);
+  color: var(--bg);
+  font-weight: 600;
+}
+
 .project-name {
   font-family: 'Cormorant Garamond', 'Noto Serif KR', serif;
   font-weight: 300;
@@ -1170,6 +1176,17 @@ section {
 }
 
 .coming-soon .rune { color: var(--gold); margin: 0 8px; }
+
+.inline-link {
+  color: var(--gold);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.3s, color 0.3s;
+}
+
+.inline-link:hover {
+  color: var(--gold-bright);
+  border-color: var(--gold-bright);
+}
 
 /* ========== RESPONSIVE ========== */
 @media (max-width: 900px) {

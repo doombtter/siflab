@@ -8,7 +8,8 @@ const links = [
   { to: '/#about', ko: '소개', en: 'About', code: 'I' },
   { to: '/#works', ko: '작업', en: 'Works', code: 'II' },
   { to: '/solutions', ko: '솔루션', en: 'Solutions', code: 'III' },
-  { to: '/#contact', ko: '연락', en: 'Contact', code: 'IV' }
+  { to: '/investors', ko: '투자자', en: 'Investors', code: 'IV' },
+  { to: '/#contact', ko: '연락', en: 'Contact', code: 'V' }
 ]
 
 const isActive = (to: string) => {
