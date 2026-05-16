@@ -18,7 +18,8 @@ export default defineNuxtConfig({
           content:
             'siflab은 소프트웨어를 만드는 작은 공방입니다. Named after Sif, Norse goddess of golden harvest.'
         },
-        { name: 'theme-color', content: '#0d1117' }
+        { name: 'theme-color', content: '#0d1117' },
+        { name: 'ows-verify', content: '9a4a37ded9894344' }
       ],
       link: [
         { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
