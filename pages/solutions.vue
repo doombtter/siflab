@@ -7,7 +7,7 @@ useHead({
     {
       name: 'description',
       content:
-        '엑셀과 수기 업무의 불편을 줄이는 작은 솔루션 시리즈. 첫 프로젝트는 육묘장 어시스턴트입니다.'
+        '엑셀과 수기 업무의 불편을 줄이는 작은 솔루션 시리즈. 육묘장 어시스턴트와 대기업 고객사 관리 솔루션을 진행 중입니다.'
     }
   ]
 })
@@ -49,8 +49,8 @@ useReveal()
       <div class="solution-status-strip reveal delay-2">
         <span v-if="lang === 'ko'">시리즈 <strong>001</strong></span>
         <span v-else>Series <strong>001</strong></span>
-        <span v-if="lang === 'ko'">현재 작업 <strong>1</strong>개</span>
-        <span v-else>Active works <strong>1</strong></span>
+        <span v-if="lang === 'ko'">현재 작업 <strong>2</strong>개</span>
+        <span v-else>Active works <strong>2</strong></span>
         <span v-if="lang === 'ko'">상태 <strong>진행 중</strong></span>
         <span v-else>Status <strong>In progress</strong></span>
       </div>
@@ -61,8 +61,8 @@ useReveal()
         <div>
           <div class="project-meta">
             <span>ᚠ · 001</span>
-            <span class="pill" v-if="lang === 'ko'">개발 중</span>
-            <span class="pill" v-else>In development</span>
+            <span class="pill pill-done" v-if="lang === 'ko'">완성</span>
+            <span class="pill pill-done" v-else>Completed</span>
           </div>
           <h2 class="project-name">
             <template v-if="lang === 'ko'"><em>육묘장</em> 어시스턴트</template>
@@ -119,6 +119,73 @@ useReveal()
               <h4 v-else>Field notes</h4>
               <p v-if="lang === 'ko'">사진·짧은 음성 메모로 이상 증상이나 작업 변경을 그대로 남깁니다.</p>
               <p v-else>Photos and short voice memos capture symptoms or task changes as they happen.</p>
+            </div>
+          </li>
+        </ul>
+      </article>
+
+      <article class="project-card reveal">
+        <div>
+          <div class="project-meta">
+            <span>ᚢ · 002</span>
+            <span class="pill" v-if="lang === 'ko'">발주 · 진행 중</span>
+            <span class="pill" v-else>Commissioned · In progress</span>
+          </div>
+          <h2 class="project-name">
+            <template v-if="lang === 'ko'"><em>대기업 고객사</em> 관리 솔루션</template>
+            <template v-else>The <em>Enterprise Account</em> Manager</template>
+          </h2>
+
+          <p class="project-desc" v-if="lang === 'ko'">
+            대기업을 상대하는 영업팀의 기록은 담당자 변경, 계약 갱신일, 단가표, 미팅 메모가 <strong>여러 엑셀과 메신저</strong>에 흩어진 채 쌓입니다. 사람이 바뀌면 맥락도 함께 사라집니다.
+          </p>
+          <p class="project-desc" v-if="lang === 'ko'">
+            한 고객사로부터 직접 <em>발주를 받아 진행 중</em>인 솔루션입니다. 고객사·담당자·계약·이력을 하나의 흐름으로 묶어, 누가 맡아도 같은 맥락 위에서 일하도록 만듭니다.
+          </p>
+
+          <p class="project-desc" v-if="lang === 'en'">
+            For teams selling into large enterprises, records pile up across <strong>scattered spreadsheets and chat threads</strong> — contact changes, renewal dates, price tables, meeting notes. When people change, the context disappears with them.
+          </p>
+          <p class="project-desc" v-if="lang === 'en'">
+            A solution <em>commissioned directly by a client and now in progress</em>. It binds accounts, contacts, contracts, and history into one flow so anyone who takes over works on the same context.
+          </p>
+        </div>
+
+        <ul class="project-features">
+          <li>
+            <span class="ico">ᚠ</span>
+            <div>
+              <h4 v-if="lang === 'ko'">고객사 원장</h4>
+              <h4 v-else>Account ledger</h4>
+              <p v-if="lang === 'ko'">고객사별 담당자·조직도·연락 이력을 한 화면에서 추적합니다.</p>
+              <p v-else>Contacts, org chart, and contact history per account on a single screen.</p>
+            </div>
+          </li>
+          <li>
+            <span class="ico">ᚢ</span>
+            <div>
+              <h4 v-if="lang === 'ko'">계약·갱신 알림</h4>
+              <h4 v-else>Contract &amp; renewal alerts</h4>
+              <p v-if="lang === 'ko'">계약 만료·갱신·단가 변경일을 미리 알려 놓치는 일을 막습니다.</p>
+              <p v-else>Expiry, renewal, and price-change dates surfaced early so nothing slips.</p>
+            </div>
+          </li>
+          <li>
+            <span class="ico">ᚦ</span>
+            <div>
+              <h4 v-if="lang === 'ko'">미팅 기록</h4>
+              <h4 v-else>Meeting log</h4>
+              <p v-if="lang === 'ko'">미팅 메모와 합의 사항을 고객사 타임라인에 그대로 누적합니다.</p>
+              <p v-else>Meeting notes and agreements accumulate on each account's timeline.</p>
+            </div>
+          </li>
+          <li>
+            <span class="ico">ᚨ</span>
+            <div>
+              <h4 v-if="lang === 'ko'">인수인계</h4>
+              <h4 v-else>Handover</h4>
+              <p v-if="lang === 'ko'">담당자가 바뀌어도 맥락과 이력이 끊기지 않게 한 번에 넘깁니다.</p>
+              <p v-else>When owners change, context and history transfer in one move, unbroken.</p>
             </div>
           </li>
         </ul>
