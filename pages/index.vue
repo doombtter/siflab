@@ -103,10 +103,10 @@ useReveal()
 
         <h2 class="works-heading reveal">
           <template v-if="lang === 'ko'">
-            지금은 <em>세 갈래</em>의 작업이<br>공방에 놓여 있습니다.
+            지금은 <em>네 갈래</em>의 작업이<br>공방에 놓여 있습니다.
           </template>
           <template v-else>
-            Three threads of work currently<br>rest on our bench.
+            Four threads of work currently<br>rest on our bench.
           </template>
         </h2>
 
@@ -197,6 +197,20 @@ useReveal()
           </div>
           <div class="work-arrow">→</div>
         </NuxtLink>
+
+        <a href="https://testy-aks.pages.dev/" target="_blank" rel="noopener" class="work is-link">
+          <div class="work-index">ᚨ · 004</div>
+          <div class="work-type">
+            <span v-if="lang === 'ko'">웹 · 심리테스트</span>
+            <span v-else>Web · Quiz</span>
+          </div>
+          <div class="work-body">
+            <div class="work-name"><em>Testy</em></div>
+            <p class="work-desc" v-if="lang === 'ko'">잠깐 쉬어가며 풀어보는 가벼운 심리테스트 모음. 결과 한 장이면 충분한, 부담 없는 웹 놀이터.</p>
+            <p class="work-desc" v-else>A small collection of breezy psychology quizzes — one screen of result, zero weight. A casual web playground for in-between moments.</p>
+          </div>
+          <div class="work-arrow">→</div>
+        </a>
       </div>
     </section>
 
